@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            background: #28a745;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .todo-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .todo-item.completed {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
+        .clear-btn {
+            background: #ffc107;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .clear-btn:hover {
+            background: #e0a800;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>To-Do List</h1>
+    <div class="input-group">
+        <input type="text" id="task-input" placeholder="Add a new task..." />
+        <button id="add-btn">Add</button>
+    </div>
+    <ul class="todo-list" id="todo-list"></ul>
+    <button class="clear-btn" id="clear-btn">Clear All</button>
+</div>
+
+<script>
+    // Get DOM elements
+    const taskInput = document.getElementById('task-input');
+    const addButton = document.getElementById('add-btn');
+    const todoList = document.getElementById('todo-list');
+    const clearButton = document.getElementById('clear-btn');
+
+    // Function to add a new task
+    function addTask() {
+        const taskText = taskInput.value.trim();
+        if (taskText) {
+            const li = document.createElement('li');
+            li.className = 'todo-item';
+            li.innerHTML = `
+                <span>${taskText}</span>
+                <button class="remove-btn">Remove</button>
+            `;
+            todoList.appendChild(li);
+            taskInput.value = '';
+
+            // Add event listener to remove button
+            li.querySelector('.remove-btn').addEventListener('click', function() {
+                todoList.removeChild(li);
+            });
+
+            // Add event listener to mark task as completed
+            li.querySelector('span').addEventListener('click', function() {
+                li.classList.toggle('completed');
+            });
+        }
+    }
+
+    // Event listener for adding task
+    addButton.addEventListener('click', addTask);
+
+    // Event listener for clearing all tasks
+    clearButton.addEventListener('click', function() {
+        todoList.innerHTML = '';
+    });
+
+    // Event listener for pressing Enter key
+    taskInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            addTask();
+        }
+    });
+</script>
+
+</body>
+</html>
